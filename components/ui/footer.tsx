@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* 로고 섹션 */}
+        {/* logo section */}
         <div className="flex items-center justify-center mb-6">
           <img 
             src="images/sponsors-logo.png" 
@@ -15,7 +15,7 @@ export function Footer() {
           />
         </div>
         
-        {/* 나머지는 동일 */}
+        {/* Same All things */}
         <div className="text-center text-gray-600 text-sm leading-relaxed">
           <p className="font-medium">
             뽀식이는 서울시 SeSAC Microsoft AI Engineer 1기 과정의 최종 프로젝트로 제작되었으며,
