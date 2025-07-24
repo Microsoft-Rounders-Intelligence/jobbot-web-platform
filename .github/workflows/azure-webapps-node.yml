@@ -36,17 +36,24 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Node.js
+    # ---- PNPM 설정 시작 ----
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8 # 또는 사용하는 pnpm 버전
+
+    - name: Set up Node.js and cache pnpm dependencies
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
+        cache: 'pnpm' # 'npm'에서 'pnpm'으로 변경
+    # ---- PNPM 설정 끝 ----
 
-    - name: npm install, build, and test
+    - name: Install dependencies, build, and test
       run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        pnpm install # 'npm'에서 'pnpm'으로 변경
+        pnpm run build --if-present
+        pnpm run test --if-present
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
