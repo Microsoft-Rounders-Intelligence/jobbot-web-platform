@@ -2,23 +2,11 @@
 #
 # To configure this workflow:
 #
-# 1. Set up a secret in your GitHub repository named AZURE_CREDENTIALS.
+# 1. Download the Publish Profile for your Azure Web App. You can download this file from the Overview page of your Web App in the Azure Portal.
 #
-#    To get the credentials, run the following command in the Azure CLI.
-#    Replace `<SUBSCRIPTION_ID>` and `<RESOURCE_GROUP>` with your actual values.
-#
-#    az ad sp create-for-rbac --name "github-actions-deploy" --role contributor --scopes /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP> --sdk-auth
-#
-#    This command will output a JSON object. Copy the entire JSON object.
-#
-# 2. In your GitHub repository, go to Settings > Secrets and variables > Actions.
-#    Create a new repository secret named AZURE_CREDENTIALS and paste the JSON object as the value.
+# 2. Create a secret in your repository named pposick, paste the publish profile contents as the value of the secret.
 #
 # 3. Change the value for the AZURE_WEBAPP_NAME environment variable below.
-#
-# For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
-# For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
 on:
   push:
@@ -39,18 +27,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # ---- PNPM 설정 시작 ----
     - name: Set up pnpm
       uses: pnpm/action-setup@v3
       with:
-        version: 8 # 또는 사용하는 pnpm 버전
+        version: 8
 
     - name: Set up Node.js and cache pnpm dependencies
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'pnpm' # 'npm'에서 'pnpm'으로 변경
-    # ---- PNPM 설정 끝 ----
+        cache: 'pnpm'
 
     - name: Install dependencies and build
       run: |
@@ -78,10 +64,10 @@ jobs:
       with:
         name: node-app
 
-
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp
-      uses: azure/webapps-deploy@v3
+      uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.pposick }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
