@@ -51,9 +51,9 @@ jobs:
 
     - name: Install dependencies, build, and test
       run: |
-        pnpm install # 'npm'에서 'pnpm'으로 변경
-        pnpm run build --if-present
-        pnpm run test --if-present
+        pnpm install
+        pnpm run build
+        pnpm run test
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
